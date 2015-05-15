@@ -1,7 +1,6 @@
 # Do "static" (i.e., not using the streaming API) geolocation search
 # using code like this: d = api.search(geocode='37.781157,-122.398720,1mi')
 
-import encoding_fix
 import tweepy
 from twitter_authentication import CONSUMER_KEY, CONSUMER_SECRET, ACCESS_TOKEN, ACCESS_TOKEN_SECRET
 import time
