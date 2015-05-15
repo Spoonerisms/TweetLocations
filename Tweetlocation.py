@@ -18,22 +18,36 @@ api = tweepy.API(auth)
 
 
 counter = 0
-for page in tweepy.Cursor(api.search, "party", geocode='37.781157,-122.398720,2mi',  count=100).pages():
+for page in tweepy.Cursor(api.search, "party", geocode='47.622134,-122.320321,1mi',  count=100).pages():
     counter = counter + len(page)
+    
     for tweet in page:
-        print(tweet.user.screen_name + "\t" + str(tweet.created_at) + "\t" + tweet.text)
+    #currently, this means the program will run to find tweets that contain the keyword and
+    #AND associated geolocation data. when it comes across a tweet that includes party but NOT
+    #geolocation data, it will return an error, 'NoneType' object is not subscriptable'. 
+    #Therefore, write in an IF loop to tell the program what to do when it encounters a tweet w/o geolocation data
+        lat = -1
+        long = -1
+        if tweet.coordinates != None:
+            lat = tweet.coordinates['coordinates'][0]
+            long = tweet.coordinates['coordinates'][1]
+        print(tweet.user.screen_name,
+            str(tweet.created_at),   
+            lat, long)
     # end this loop if we've gotten 1000
-    if counter == 1000:
+    if counter == 100:
         break
-
+print(counter)
     # This page suggests we can do one request every 5 seconds:
     # https://dev.twitter.com/rest/reference/get/search/tweets
-    time.sleep(5)
+    #time.sleep(5)
 
 
 output_file.close()
 
-
+#QUESTIONS
+    #1. Why are we getting tweets with -1 (exact location is not specified, 
+    #but tweet is still pulled?)
 #http://stackoverflow.com/questions/25224692/getting-the-location-using-tweepy
 
 #http://stackoverflow.com/questions/17633378/how-can-we-get-tweets-from-specific-country
