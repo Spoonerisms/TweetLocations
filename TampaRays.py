@@ -7,7 +7,7 @@ import time
 
 
 ts = time.time()
-output_file = open('tweetlocationSeattle' + str(ts) + '.tsv','w')
+output_file = open('tweetlocationRays_' + str(ts) + '.tsv','w')
 
 auth = tweepy.OAuthHandler(CONSUMER_KEY, CONSUMER_SECRET)
 auth.set_access_token(ACCESS_TOKEN, ACCESS_TOKEN_SECRET)
@@ -17,11 +17,9 @@ api = tweepy.API(auth)
 # 100 is the maximum number that can be returned according to:
 # https://dev.twitter.com/rest/reference/get/search/tweets
 
-
-
 def get_tweets_for_keyword(keyword):
     counter = 0
-    for page in tweepy.Cursor(api.search, keyword,  geocode='47.622134,-122.320321,100mi',  count=100).pages():
+    for page in tweepy.Cursor(api.search, keyword,  geocode='27.768225,-82.653392,100mi',  count=100).pages():
         counter = counter + len(page)
         
         for tweet in page:
@@ -74,10 +72,10 @@ def get_tweets_for_keyword(keyword):
 
 tweet_ids = []
 
-get_tweets_for_keyword("#Mariners")
 get_tweets_for_keyword("Mariners")
-get_tweets_for_keyword("Safeco")
-get_tweets_for_keyword("'#RedSox'")
+get_tweets_for_keyword("'#Mariners'")
+get_tweets_for_keyword("Rays")
+get_tweets_for_keyword("baseball")
 
 output_file.close()
 
